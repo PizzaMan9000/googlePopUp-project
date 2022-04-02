@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test project</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <link rel = "stylesheet" href = "login.css">
+    <script src = "login.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+    <div class = "container">
+        <div id = "background-rectangle"></div>
+        <div id = "background-rectangle2"></div>
+
+        <div id = "background-circle"></div>
+
+        <div id = "loginDiv" style = "position: absolute">
+            <img id = "logo" src="logo.jpg">
+
+            <h4>Welcome to Buzzin</h4>
+
+            <label>Username:</label>
+            <br>
+            <input id  = "username" type  = "text" placeholder="Enter your username">
+            <label>Gmail:</label>
+            <br>
+            <input id  = "gmail" type = "text" placeholder="Enter your gmail">
+            <label>Password:</label>
+            <br>
+            <input id  = "password" type = "password" placeholder="Enter your password">
+            <br>
+            <button id = "login-button">Sign up</button>
+            <br>
+            <button id = "login-button-google"></button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+        import { getAuth ,GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js"
+
+
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCumcsU20hONlOa8zrAqmzT5x_iMhB-rXw",
+            authDomain: "buzzin-project.firebaseapp.com",
+            databaseURL: "https://buzzin-project-default-rtdb.firebaseio.com",
+            projectId: "buzzin-project",
+            storageBucket: "buzzin-project.appspot.com",
+            messagingSenderId: "49440952771",
+            appId: "1:49440952771:web:71849e13a6179741626d76"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth  = getAuth(app);
+        const provider = new GoogleAuthProvider(app);
+        
+        document.getElementById("login-button-google").addEventListener('click', (e) => {
+            signInWithPopup(auth, provider)
+            .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+        
+        
+            alert(user.displayName);
+            // ...
+            }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        
+            alert(errorMessage);
+            });
+        });
+    </script>
+</body>
+</html>
